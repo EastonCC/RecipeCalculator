@@ -1,5 +1,5 @@
 import { defineComponent, computed, ref, nextTick } from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.js'
-import { calcRecipeStats, unitLabel, convertUnit, MEASURABLE_UNITS } from '../calculations.js'
+import { calcRecipeStats, unitLabel, convertUnit, formatUnitAmount, MEASURABLE_UNITS } from '../calculations.js'
 
 export default defineComponent({
   name: 'RecipeDetail',
@@ -71,7 +71,7 @@ export default defineComponent({
       return `${amount} ${unitLabel(unit)}`
     }
 
-    return { stats, resolveIngredient, unitLabel, displayAmount, MEASURABLE_UNITS,
+    return { stats, resolveIngredient, unitLabel, formatUnitAmount, displayAmount, MEASURABLE_UNITS,
              editingName, editPrice, editWeightAmt, editWeightUnit,
              startEdit, commitEdit, onEditFocusOut, cancelEdit }
   },
@@ -127,7 +127,7 @@ export default defineComponent({
                       </div>
                       <button v-else class="price-display" @click="startEdit(resolveIngredient(ri.ingredientName))">
                         {{ '$' + resolveIngredient(ri.ingredientName).unitPrice.toFixed(2) }}
-                        <span class="price-unit muted">/ {{ resolveIngredient(ri.ingredientName).unitWeight.amount }} {{ unitLabel(resolveIngredient(ri.ingredientName).unitWeight.unit) }}</span>
+                        <span class="price-unit muted">/ {{ formatUnitAmount(resolveIngredient(ri.ingredientName).unitWeight.amount, resolveIngredient(ri.ingredientName).unitWeight.unit) }}</span>
                         <span class="edit-hint">✏</span>
                       </button>
                     </template>

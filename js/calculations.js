@@ -8,8 +8,10 @@ export const UNITS = [
   { key: 'TABLESPOON', label: 'Tablespoon', toBase: 14.787,   dimension: 'VOLUME' },
   { key: 'TEASPOON',   label: 'Teaspoon',   toBase: 4.929,    dimension: 'VOLUME' },
   { key: 'CUP',        label: 'Cup',        toBase: 236.588,  dimension: 'VOLUME' },
-  { key: 'FL OZ', label: 'Fl oz', toBase: 29.5735, dimension: 'VOLUME' },
-  { key: 'GALLON', label: 'Gallon', toBase: 3785.41, dimension: 'VOLUME' },
+  { key: 'FLOZ',    label: 'Fl oz',  plural: 'Fl oz',  toBase: 29.5735,  dimension: 'VOLUME' },
+  { key: 'PINT',    label: 'Pint',   toBase: 473.176,  dimension: 'VOLUME' },
+  { key: 'QUART',   label: 'Quart',  toBase: 946.353,  dimension: 'VOLUME' },
+  { key: 'GALLON',  label: 'Gallon', toBase: 3785.41,  dimension: 'VOLUME' },
   { key: 'UNIT',       label: 'Unit(s)',    toBase: null,     dimension: 'COUNT'  },
 ]
 
@@ -19,7 +21,19 @@ export const MEASURABLE_UNITS = UNITS.filter(u => u.key !== 'UNIT')
 const UNIT_MAP = Object.fromEntries(UNITS.map(u => [u.key, u]))
 
 export function unitLabel(key) {
-  return UNIT_MAP[key]?.label ?? key
+  // handle legacy 'FL OZ' key saved before key was normalised to 'FLOZ'
+  const unit = UNIT_MAP[key] ?? UNIT_MAP[key?.replace(/\s+/g, '')]
+  return unit?.label ?? key
+}
+
+// "per Pound", "per 2 Pounds", "per Tablespoon", etc.
+export function formatUnitAmount(amount, key) {
+  const unit = UNIT_MAP[key] ?? UNIT_MAP[key?.replace(/\s+/g, '')]
+  if (!unit) return `${amount} ${key}`
+  const label = amount === 1
+    ? unit.label
+    : (unit.plural ?? unit.label + 's')
+  return amount === 1 ? label : `${amount} ${label}`
 }
 
 export function convertUnit(amount, fromKey, toKey, unitSize = null) {

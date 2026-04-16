@@ -1,0 +1,273 @@
+{
+  "ingredients": [
+    {
+      "name": "Chicken Breast",
+      "unitPrice": 7.99,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-03-12T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 110, "carbohydrates": 0, "protein": 23,
+        "sodium": 67, "cholesterol": 64, "fiber": 0,
+        "fat": { "saturated": 1, "unsaturated": 2, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Ground Beef (80/20)",
+      "unitPrice": 5.99,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-03-12T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 254, "carbohydrates": 0, "protein": 17,
+        "sodium": 75, "cholesterol": 78, "fiber": 0,
+        "fat": { "saturated": 8, "unsaturated": 11, "trans": 1 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Eggs",
+      "unitPrice": 3.99,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "unitSize": { "amount": 56, "unit": "GRAM", "name": "large egg" },
+      "priceLastUpdated": "2026-04-01T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 143, "carbohydrates": 1, "protein": 13,
+        "sodium": 142, "cholesterol": 372, "fiber": 0,
+        "fat": { "saturated": 3, "unsaturated": 6, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Brown Rice",
+      "unitPrice": 2.49,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-02-20T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 370, "carbohydrates": 77, "protein": 8,
+        "sodium": 6, "cholesterol": 0, "fiber": 4,
+        "fat": { "saturated": 1, "unsaturated": 2, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Rolled Oats",
+      "unitPrice": 3.29,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-02-20T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 379, "carbohydrates": 67, "protein": 13,
+        "sodium": 2, "cholesterol": 0, "fiber": 10,
+        "fat": { "saturated": 1, "unsaturated": 5, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Broccoli",
+      "unitPrice": 1.99,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-04-10T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 34, "carbohydrates": 7, "protein": 3,
+        "sodium": 33, "cholesterol": 0, "fiber": 3,
+        "fat": { "saturated": 0, "unsaturated": 0, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Spinach",
+      "unitPrice": 3.49,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-04-10T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 23, "carbohydrates": 4, "protein": 3,
+        "sodium": 79, "cholesterol": 0, "fiber": 2,
+        "fat": { "saturated": 0, "unsaturated": 0, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Olive Oil",
+      "unitPrice": 8.99,
+      "unitWeight": { "amount": 1, "unit": "LITER" },
+      "priceLastUpdated": "2026-01-15T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 1, "unit": "TABLESPOON" },
+        "kCal": 118, "carbohydrates": 0, "protein": 0,
+        "sodium": 0, "cholesterol": 0, "fiber": 0,
+        "fat": { "saturated": 2, "unsaturated": 11, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Cheddar Cheese",
+      "unitPrice": 5.49,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-03-05T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 402, "carbohydrates": 1, "protein": 25,
+        "sodium": 621, "cholesterol": 105, "fiber": 0,
+        "fat": { "saturated": 21, "unsaturated": 10, "trans": 1 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Black Beans",
+      "unitPrice": 1.29,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-02-01T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 91, "carbohydrates": 17, "protein": 6,
+        "sodium": 237, "cholesterol": 0, "fiber": 6,
+        "fat": { "saturated": 0, "unsaturated": 0, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Salmon",
+      "unitPrice": 12.99,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-04-08T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 208, "carbohydrates": 0, "protein": 20,
+        "sodium": 59, "cholesterol": 63, "fiber": 0,
+        "fat": { "saturated": 3, "unsaturated": 10, "trans": 0 },
+        "sugar": null
+      }
+    },
+    {
+      "name": "Greek Yogurt",
+      "unitPrice": 2.49,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-03-28T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 59, "carbohydrates": 3, "protein": 10,
+        "sodium": 36, "cholesterol": 5, "fiber": 0,
+        "fat": { "saturated": 0, "unsaturated": 0, "trans": 0 },
+        "sugar": { "total": 3, "added": 0 }
+      }
+    },
+    {
+      "name": "Whole Milk",
+      "unitPrice": 1.09,
+      "unitWeight": { "amount": 1, "unit": "LITER" },
+      "priceLastUpdated": "2026-04-01T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 1, "unit": "CUP" },
+        "kCal": 144, "carbohydrates": 12, "protein": 7,
+        "sodium": 102, "cholesterol": 24, "fiber": 0,
+        "fat": { "saturated": 5, "unsaturated": 2, "trans": 0 },
+        "sugar": { "total": 12, "added": 0 }
+      }
+    },
+    {
+      "name": "Sweet Potato",
+      "unitPrice": 1.49,
+      "unitWeight": { "amount": 1, "unit": "POUND" },
+      "priceLastUpdated": "2026-03-20T10:00:00.000Z",
+      "nutrients": {
+        "servingSize": { "amount": 100, "unit": "GRAM" },
+        "kCal": 86, "carbohydrates": 20, "protein": 2,
+        "sodium": 55, "cholesterol": 0, "fiber": 3,
+        "fat": null,
+        "sugar": { "total": 4, "added": 0 }
+      }
+    }
+  ],
+  "recipes": [
+    {
+      "name": "Scrambled Eggs",
+      "servings": 1,
+      "directions": "Crack eggs into a bowl and whisk until combined. Heat olive oil in a non-stick pan over medium-low heat. Pour in eggs and stir gently with a spatula, folding slowly until just set. Remove from heat while still slightly glossy. Season with salt and pepper.",
+      "ingredients": [
+        { "ingredientName": "Eggs",      "servingSize": { "amount": 3, "unit": "UNIT" } },
+        { "ingredientName": "Olive Oil", "servingSize": { "amount": 1, "unit": "TEASPOON" } }
+      ]
+    },
+    {
+      "name": "Grilled Chicken & Rice Bowl",
+      "servings": 2,
+      "directions": "Cook brown rice according to package directions. Season chicken with salt, pepper, garlic powder, and paprika. Heat olive oil in a pan over medium-high heat and cook chicken 6-7 minutes per side until internal temp reaches 165F. Steam broccoli until tender-crisp, about 5 minutes. Slice chicken and serve over rice with broccoli.",
+      "ingredients": [
+        { "ingredientName": "Chicken Breast", "servingSize": { "amount": 400, "unit": "GRAM" } },
+        { "ingredientName": "Brown Rice",     "servingSize": { "amount": 200, "unit": "GRAM" } },
+        { "ingredientName": "Broccoli",       "servingSize": { "amount": 200, "unit": "GRAM" } },
+        { "ingredientName": "Olive Oil",      "servingSize": { "amount": 1,   "unit": "TABLESPOON" } }
+      ]
+    },
+    {
+      "name": "Overnight Oats",
+      "servings": 1,
+      "directions": "Combine oats, milk, and Greek yogurt in a jar or bowl. Stir well to combine. Cover and refrigerate for at least 6 hours or overnight. Serve cold. Top with fruit or honey if desired.",
+      "ingredients": [
+        { "ingredientName": "Rolled Oats",  "servingSize": { "amount": 90,  "unit": "GRAM" } },
+        { "ingredientName": "Whole Milk",   "servingSize": { "amount": 1,   "unit": "CUP" } },
+        { "ingredientName": "Greek Yogurt", "servingSize": { "amount": 150, "unit": "GRAM" } }
+      ]
+    },
+    {
+      "name": "Black Bean & Rice Bowl",
+      "servings": 2,
+      "directions": "Cook brown rice. Drain and rinse black beans, then warm in a small saucepan over medium heat. Heat olive oil in a pan, add spinach and cook for 1-2 minutes until wilted. Season everything with cumin, salt, and lime juice. Serve beans and spinach over rice.",
+      "ingredients": [
+        { "ingredientName": "Black Beans", "servingSize": { "amount": 400, "unit": "GRAM" } },
+        { "ingredientName": "Brown Rice",  "servingSize": { "amount": 150, "unit": "GRAM" } },
+        { "ingredientName": "Spinach",     "servingSize": { "amount": 100, "unit": "GRAM" } },
+        { "ingredientName": "Olive Oil",   "servingSize": { "amount": 1,   "unit": "TABLESPOON" } }
+      ]
+    },
+    {
+      "name": "Keto Salmon & Broccoli",
+      "servings": 2,
+      "directions": "Preheat oven to 400F. Toss broccoli florets in half the olive oil, season with salt and pepper, and spread on a baking sheet. Roast 20 minutes until edges are crispy. Pat salmon dry, season generously with salt, pepper, and garlic powder. Heat remaining oil in an oven-safe skillet over high heat. Sear salmon skin-side up for 3 minutes, flip, then transfer pan to oven for 8-10 minutes until salmon flakes easily.",
+      "ingredients": [
+        { "ingredientName": "Salmon",    "servingSize": { "amount": 400, "unit": "GRAM" } },
+        { "ingredientName": "Broccoli",  "servingSize": { "amount": 300, "unit": "GRAM" } },
+        { "ingredientName": "Olive Oil", "servingSize": { "amount": 2,   "unit": "TABLESPOON" } }
+      ]
+    },
+    {
+      "name": "Ground Beef Stir Fry",
+      "servings": 2,
+      "directions": "Heat olive oil in a wok or large skillet over high heat. Add ground beef and cook, breaking it apart, until browned and cooked through, about 7 minutes. Drain excess fat. Add broccoli and stir fry for 3-4 minutes until tender-crisp. Add spinach and toss for 1 minute until wilted. Season with soy sauce, garlic, and a pinch of red pepper flakes.",
+      "ingredients": [
+        { "ingredientName": "Ground Beef (80/20)", "servingSize": { "amount": 300, "unit": "GRAM" } },
+        { "ingredientName": "Broccoli",            "servingSize": { "amount": 200, "unit": "GRAM" } },
+        { "ingredientName": "Spinach",             "servingSize": { "amount": 80,  "unit": "GRAM" } },
+        { "ingredientName": "Olive Oil",           "servingSize": { "amount": 1,   "unit": "TABLESPOON" } }
+      ]
+    },
+    {
+      "name": "Cheese & Egg Scramble",
+      "servings": 1,
+      "directions": "Heat olive oil in a non-stick pan over medium heat. Add spinach and cook for 1 minute until wilted. Whisk eggs and pour over the spinach. Stir gently as eggs cook. When nearly set, sprinkle cheddar cheese over the top and let it melt for 30 seconds. Fold and serve immediately.",
+      "ingredients": [
+        { "ingredientName": "Eggs",           "servingSize": { "amount": 3,  "unit": "UNIT" } },
+        { "ingredientName": "Cheddar Cheese", "servingSize": { "amount": 30, "unit": "GRAM" } },
+        { "ingredientName": "Spinach",        "servingSize": { "amount": 50, "unit": "GRAM" } },
+        { "ingredientName": "Olive Oil",      "servingSize": { "amount": 1,  "unit": "TEASPOON" } }
+      ]
+    },
+    {
+      "name": "Sweet Potato & Chicken Bowl",
+      "servings": 2,
+      "directions": "Preheat oven to 425F. Cube sweet potatoes and toss with half the olive oil, salt, and pepper. Roast for 25-30 minutes until soft and caramelized. Meanwhile, season chicken with salt, pepper, and smoked paprika. Cook in remaining olive oil over medium-high heat, 6-7 minutes per side. Slice chicken and serve over roasted sweet potato with a handful of spinach.",
+      "ingredients": [
+        { "ingredientName": "Chicken Breast", "servingSize": { "amount": 350, "unit": "GRAM" } },
+        { "ingredientName": "Sweet Potato",   "servingSize": { "amount": 400, "unit": "GRAM" } },
+        { "ingredientName": "Spinach",        "servingSize": { "amount": 60,  "unit": "GRAM" } },
+        { "ingredientName": "Olive Oil",      "servingSize": { "amount": 1,   "unit": "TABLESPOON" } }
+      ]
+    }
+  ]
+}

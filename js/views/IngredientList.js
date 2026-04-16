@@ -1,5 +1,5 @@
 import { defineComponent } from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.js'
-import { unitLabel } from '../calculations.js'
+import { unitLabel, formatUnitAmount } from '../calculations.js'
 
 export default defineComponent({
   name: 'IngredientList',
@@ -13,7 +13,7 @@ export default defineComponent({
       if (confirm(`Delete "${name}"? This cannot be undone.`))
         props.store.deleteIngredient(name)
     }
-    return { formatDate, deleteIngredient, unitLabel }
+    return { formatDate, deleteIngredient, unitLabel, formatUnitAmount }
   },
   template: `
     <div class="view">
@@ -35,10 +35,10 @@ export default defineComponent({
           </div>
           <div class="card-body">
             <p class="price-line">
-              {{ '$' + ing.unitPrice.toFixed(2) }} per {{ ing.unitWeight.amount }} {{ ing.unitWeight.unit.toLowerCase() }}
+              {{ '$' + ing.unitPrice.toFixed(2) }} per {{ formatUnitAmount(ing.unitWeight.amount, ing.unitWeight.unit) }}
             </p>
             <p class="last-updated">Price updated: {{ formatDate(ing.priceLastUpdated) }}</p>
-            <p class="last-updated" v-if="ing.unitSize">1 {{ ing.unitSize.name ?? 'unit' }} = {{ ing.unitSize.amount }} {{ unitLabel(ing.unitSize.unit) }}</p>
+            <p class="last-updated" v-if="ing.unitSize">1 {{ ing.unitSize.name ?? 'unit' }} = {{ formatUnitAmount(ing.unitSize.amount, ing.unitSize.unit) }}</p>
             <div v-if="ing.nutrients" class="chip-row">
               <span class="chip">{{ ing.nutrients.kCal }} kcal</span>
               <span class="chip">{{ ing.nutrients.protein }}g protein</span>
