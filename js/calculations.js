@@ -8,7 +8,8 @@ export const UNITS = [
   { key: 'TABLESPOON', label: 'Tablespoon', toBase: 14.787,   dimension: 'VOLUME' },
   { key: 'TEASPOON',   label: 'Teaspoon',   toBase: 4.929,    dimension: 'VOLUME' },
   { key: 'CUP',        label: 'Cup',        toBase: 236.588,  dimension: 'VOLUME' },
-  { key: 'FLOZ',       label: 'Fl oz',      toBase: 29.5735,  dimension: 'VOLUME' },
+  { key: 'FL OZ', label: 'Fl oz', toBase: 29.5735, dimension: 'VOLUME' },
+  { key: 'GALLON', label: 'Gallon', toBase: 3785.41, dimension: 'VOLUME' },
   { key: 'UNIT',       label: 'Unit(s)',    toBase: null,     dimension: 'COUNT'  },
 ]
 
