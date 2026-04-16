@@ -237,7 +237,7 @@ export default defineComponent({
                 <span class="stat-label">per 100 cal</span>
               </div>
               <div class="stat-item" v-if="stats.costPerProtein">
-                <span class="stat-value">{{ '$' + stats.costPerProtein.toFixed(4) }}</span>
+                <span class="stat-value">{{ '$' + stats.costPerProtein.toFixed(2) }}</span>
                 <span class="stat-label">per g prot</span>
               </div>
             </div>
