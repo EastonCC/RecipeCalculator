@@ -1,1 +1,0 @@
-public enum Dimension { MASS, VOLUME, COUNT }
