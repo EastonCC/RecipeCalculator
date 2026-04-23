@@ -63,10 +63,18 @@ export default defineComponent({
       })
     }
 
+    function unitOptionLabel(unitKey, ingredientName) {
+      if (unitKey === 'UNIT') {
+        const name = ingredientUnitSize(ingredientName)?.name
+        return name ? name + '(s)' : 'Unit(s)'
+      }
+      return UNITS.find(u => u.key === unitKey)?.label ?? unitKey
+    }
+
     return {
       UNITS, rows, openIdx,
       availableIngredients, openDropdown, closeDropdown, pickIngredient,
-      addRow, removeRow, ingredientUnitSize,
+      addRow, removeRow, ingredientUnitSize, unitOptionLabel,
       stats, hasRows, saveAsRecipe,
     }
   },
@@ -125,7 +133,7 @@ export default defineComponent({
                 <div class="input-inline">
                   <input v-model="row.amount" type="number" step="0.01" min="0.01" placeholder="100" />
                   <select v-model="row.unit">
-                    <option v-for="u in UNITS" :key="u.key" :value="u.key">{{ u.label }}</option>
+                    <option v-for="u in UNITS" :key="u.key" :value="u.key">{{ unitOptionLabel(u.key, row.ingredientName) }}</option>
                   </select>
                 </div>
                 <span class="field-hint warn" v-if="row.unit === 'UNIT' && row.ingredientName && !ingredientUnitSize(row.ingredientName)">
