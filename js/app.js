@@ -6,12 +6,13 @@ import RecipeForm         from './views/RecipeForm.js'
 import IngredientList     from './views/IngredientList.js'
 import IngredientForm     from './views/IngredientForm.js'
 import RecipeSearch       from './views/RecipeSearch.js'
+import MealCalculator     from './views/MealCalculator.js'
 
 const RECIPE_VIEWS     = new Set(['recipes', 'recipe-detail', 'recipe-form'])
 const INGREDIENT_VIEWS = new Set(['ingredients', 'ingredient-form'])
 
 const App = defineComponent({
-  components: { RecipeList, RecipeDetail, RecipeForm, IngredientList, IngredientForm, RecipeSearch },
+  components: { RecipeList, RecipeDetail, RecipeForm, IngredientList, IngredientForm, RecipeSearch, MealCalculator },
   setup() {
     const currentView  = ref('recipes')
     const viewParams   = ref({})
@@ -85,6 +86,11 @@ const App = defineComponent({
             :class="{ active: currentView === 'search' }"
             @click="navigate('search')"
           >Search &amp; Filter</button>
+          <button
+            class="nav-item"
+            :class="{ active: currentView === 'meal' }"
+            @click="navigate('meal')"
+          >Meal Calculator</button>
         </nav>
 
         <div class="sidebar-section-title">Data</div>
@@ -110,10 +116,11 @@ const App = defineComponent({
       <main class="main-content">
         <RecipeList     v-if="currentView === 'recipes'"              :store="store" @navigate="navigate" />
         <RecipeDetail   v-else-if="currentView === 'recipe-detail'"   :store="store" :recipe="viewParams.recipe" @navigate="navigate" />
-        <RecipeForm     v-else-if="currentView === 'recipe-form'"     :store="store" :recipe="viewParams.recipe" @navigate="navigate" />
+        <RecipeForm     v-else-if="currentView === 'recipe-form'"     :store="store" :recipe="viewParams.recipe" :prefill="viewParams.prefill" @navigate="navigate" />
         <IngredientList v-else-if="currentView === 'ingredients'"     :store="store" @navigate="navigate" />
         <IngredientForm v-else-if="currentView === 'ingredient-form'" :store="store" :ingredient="viewParams.ingredient" @navigate="navigate" />
         <RecipeSearch   v-else-if="currentView === 'search'"          :store="store" @navigate="navigate" />
+        <MealCalculator v-else-if="currentView === 'meal'"           :store="store" @navigate="navigate" />
       </main>
     </div>
   `,

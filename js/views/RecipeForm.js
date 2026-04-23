@@ -4,13 +4,14 @@ import { UNITS } from '../calculations.js'
 export default defineComponent({
   name: 'RecipeForm',
   props: {
-    store:  Object,
-    recipe: { type: Object, default: null },
+    store:   Object,
+    recipe:  { type: Object, default: null },
+    prefill: { type: Object, default: null },
   },
   emits: ['navigate'],
   setup(props, { emit }) {
     const isEdit = !!props.recipe
-    const src    = props.recipe || {}
+    const src    = props.recipe || props.prefill || {}
 
     const name       = ref(src.name       ?? '')
     const servings   = ref(src.servings   ?? 1)
