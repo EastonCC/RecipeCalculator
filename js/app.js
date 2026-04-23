@@ -118,7 +118,7 @@ const App = defineComponent({
         <RecipeDetail   v-else-if="currentView === 'recipe-detail'"   :store="store" :recipe="viewParams.recipe" @navigate="navigate" />
         <RecipeForm     v-else-if="currentView === 'recipe-form'"     :store="store" :recipe="viewParams.recipe" :prefill="viewParams.prefill" @navigate="navigate" />
         <IngredientList v-else-if="currentView === 'ingredients'"     :store="store" @navigate="navigate" />
-        <IngredientForm v-else-if="currentView === 'ingredient-form'" :store="store" :ingredient="viewParams.ingredient" @navigate="navigate" />
+        <IngredientForm v-else-if="currentView === 'ingredient-form'" :store="store" :ingredient="viewParams.ingredient" :prefill="viewParams.prefill" :returnTo="viewParams.returnTo" @navigate="navigate" />
         <RecipeSearch   v-else-if="currentView === 'search'"          :store="store" @navigate="navigate" />
         <MealCalculator v-else-if="currentView === 'meal'"           :store="store" @navigate="navigate" />
       </main>

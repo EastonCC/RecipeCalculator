@@ -6,11 +6,13 @@ export default defineComponent({
   props: {
     store:      Object,
     ingredient: { type: Object, default: null },
+    prefill:    { type: Object, default: null },
+    returnTo:   { type: String, default: 'ingredients' },
   },
   emits: ['navigate'],
   setup(props, { emit }) {
     const isEdit = !!props.ingredient
-    const src    = props.ingredient || {}
+    const src    = props.ingredient || props.prefill || {}
 
     const name          = ref(src.name          ?? '')
     const unitPrice     = ref(src.unitPrice      ?? '')
@@ -94,7 +96,7 @@ export default defineComponent({
           } : null,
         } : null,
       })
-      emit('navigate', 'ingredients')
+      emit('navigate', props.returnTo)
     }
 
     const confirmingDelete = ref(false)
@@ -105,7 +107,7 @@ export default defineComponent({
     }
 
     return {
-      isEdit, UNITS, MEASURABLE_UNITS, errors, submit,
+      isEdit, returnTo: props.returnTo, UNITS, MEASURABLE_UNITS, errors, submit,
       servingSizeAmount, servingSizeUnit, servingSizeUnits,
       name, unitPrice, weightAmount, weightUnit,
       showNutrients, kCal, carbohydrates, protein, sodium, cholesterol, fiber,
@@ -238,7 +240,7 @@ export default defineComponent({
             </template>
           </div>
           <div class="form-actions-right">
-            <button type="button" class="btn btn-secondary" @click="$emit('navigate', 'ingredients')">Cancel</button>
+            <button type="button" class="btn btn-secondary" @click="$emit('navigate', returnTo)">Cancel</button>
             <button type="submit" class="btn btn-primary">{{ isEdit ? 'Save Changes' : 'Add Ingredient' }}</button>
           </div>
         </div>

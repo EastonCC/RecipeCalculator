@@ -1,12 +1,18 @@
-import { defineComponent, ref, computed } from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.js'
-import { calcRecipeStats, UNITS } from '../calculations.js'
+import { defineComponent, ref, reactive, computed } from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.js'
+import { calcRecipeStats, UNITS, MEASURABLE_UNITS } from '../calculations.js'
+
+const emptyQuickAdd = () => ({
+  name: '', price: '', priceAmount: '100', priceUnit: 'GRAM',
+  kCal: '', servingAmount: '', servingUnit: 'GRAM',
+})
 
 export default defineComponent({
   name: 'MealCalculator',
   props: { store: Object },
   emits: ['navigate'],
   setup(props, { emit }) {
-    const rows   = ref([{ ingredientName: '', amount: '', unit: 'GRAM', search: '' }])
+    // ── Meal rows ──────────────────────────────────────────────
+    const rows    = ref([{ ingredientName: '', amount: '', unit: 'GRAM', search: '' }])
     const openIdx = ref(null)
 
     function availableIngredients(idx) {
@@ -31,6 +37,15 @@ export default defineComponent({
       return props.store.ingredients.find(i => i.name === name)?.unitSize ?? null
     }
 
+    function unitOptionLabel(unitKey, ingredientName) {
+      if (unitKey === 'UNIT') {
+        const name = ingredientUnitSize(ingredientName)?.name
+        return name ? name + '(s)' : 'Unit(s)'
+      }
+      return UNITS.find(u => u.key === unitKey)?.label ?? unitKey
+    }
+
+    // ── Live stats ─────────────────────────────────────────────
     const stats = computed(() => {
       const valid = rows.value.filter(r => r.ingredientName && Number(r.amount) > 0)
       if (!valid.length) return null
@@ -46,9 +61,7 @@ export default defineComponent({
       )
     })
 
-    const hasRows = computed(() =>
-      rows.value.some(r => r.ingredientName && Number(r.amount) > 0)
-    )
+    const hasRows = computed(() => rows.value.some(r => r.ingredientName && Number(r.amount) > 0))
 
     function saveAsRecipe() {
       emit('navigate', 'recipe-form', {
@@ -63,19 +76,94 @@ export default defineComponent({
       })
     }
 
-    function unitOptionLabel(unitKey, ingredientName) {
-      if (unitKey === 'UNIT') {
-        const name = ingredientUnitSize(ingredientName)?.name
-        return name ? name + '(s)' : 'Unit(s)'
+    // ── Quick-add modal ────────────────────────────────────────
+    const showQuickAdd  = ref(false)
+    const quickAdd      = reactive(emptyQuickAdd())
+    const quickErrors   = ref({})
+
+    function openQuickAdd() {
+      Object.assign(quickAdd, emptyQuickAdd())
+      quickErrors.value = {}
+      showQuickAdd.value = true
+    }
+
+    function validateQuick() {
+      const e = {}
+      if (!quickAdd.name.trim())                                    e.name  = 'Required'
+      else if (props.store.ingredients.find(i => i.name === quickAdd.name.trim()))
+                                                                    e.name  = 'An ingredient with this name already exists'
+      if (quickAdd.price === '' || Number(quickAdd.price) < 0)     e.price = 'Required'
+      if (!quickAdd.priceAmount || Number(quickAdd.priceAmount) <= 0) e.priceAmount = 'Must be > 0'
+      quickErrors.value = e
+      return Object.keys(e).length === 0
+    }
+
+    function buildIngredient() {
+      const hasCalories = quickAdd.kCal !== '' && Number(quickAdd.kCal) >= 0
+      const servingAmt  = Number(quickAdd.servingAmount) > 0
+        ? Number(quickAdd.servingAmount)
+        : Number(quickAdd.priceAmount)
+      const servingUnit = Number(quickAdd.servingAmount) > 0
+        ? quickAdd.servingUnit
+        : quickAdd.priceUnit
+      return {
+        name:             quickAdd.name.trim(),
+        unitPrice:        Number(quickAdd.price),
+        unitWeight:       { amount: Number(quickAdd.priceAmount), unit: quickAdd.priceUnit },
+        priceLastUpdated: new Date().toISOString(),
+        unitSize:         null,
+        nutrients: hasCalories ? {
+          servingSize: { amount: servingAmt, unit: servingUnit },
+          kCal:          Number(quickAdd.kCal) || 0,
+          carbohydrates: 0, protein: 0, sodium: 0, cholesterol: 0, fiber: 0,
+          fat: null, sugar: null,
+        } : null,
       }
-      return UNITS.find(u => u.key === unitKey)?.label ?? unitKey
+    }
+
+    function submitQuickAdd() {
+      if (!validateQuick()) return
+      const ing = buildIngredient()
+      props.store.saveIngredient(ing)
+      // auto-add a row for the new ingredient
+      const emptyRow = rows.value.find(r => !r.ingredientName)
+      if (emptyRow) {
+        emptyRow.ingredientName = ing.name
+      } else {
+        rows.value.push({ ingredientName: ing.name, amount: '', unit: ing.unitWeight.unit, search: '' })
+      }
+      showQuickAdd.value = false
+    }
+
+    function openFullForm() {
+      // Pass whatever is filled in as prefill; return here after saving
+      const hasCalories = quickAdd.kCal !== '' && Number(quickAdd.kCal) >= 0
+      emit('navigate', 'ingredient-form', {
+        returnTo: 'meal',
+        prefill: {
+          name:       quickAdd.name.trim(),
+          unitPrice:  quickAdd.price !== '' ? Number(quickAdd.price) : undefined,
+          unitWeight: Number(quickAdd.priceAmount) > 0
+            ? { amount: Number(quickAdd.priceAmount), unit: quickAdd.priceUnit }
+            : undefined,
+          nutrients: hasCalories ? {
+            servingSize: Number(quickAdd.servingAmount) > 0
+              ? { amount: Number(quickAdd.servingAmount), unit: quickAdd.servingUnit }
+              : null,
+            kCal: Number(quickAdd.kCal) || 0,
+          } : null,
+        },
+      })
+      showQuickAdd.value = false
     }
 
     return {
-      UNITS, rows, openIdx,
+      UNITS, MEASURABLE_UNITS, rows, openIdx,
       availableIngredients, openDropdown, closeDropdown, pickIngredient,
       addRow, removeRow, ingredientUnitSize, unitOptionLabel,
       stats, hasRows, saveAsRecipe,
+      showQuickAdd, quickAdd, quickErrors,
+      openQuickAdd, submitQuickAdd, openFullForm,
     }
   },
   template: `
@@ -95,11 +183,9 @@ export default defineComponent({
         <!-- Ingredient rows -->
         <div class="detail-main">
           <div class="detail-section">
-            <h2>Ingredients</h2>
-
-            <div v-if="store.ingredients.length === 0" class="empty-state" style="margin-bottom:1rem">
-              No ingredients yet.
-              <a href="#" @click.prevent="$emit('navigate', 'ingredient-form', {})">Add an ingredient</a> first.
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+              <h2 style="margin-bottom:0">Ingredients</h2>
+              <button type="button" class="btn btn-secondary btn-sm" @click="openQuickAdd">+ New Ingredient</button>
             </div>
 
             <div class="ingredient-row" v-for="(row, idx) in rows" :key="idx">
@@ -151,7 +237,7 @@ export default defineComponent({
             </div>
 
             <button type="button" class="btn btn-secondary" style="margin-top:.5rem" @click="addRow">
-              + Add Ingredient
+              + Add Row
             </button>
           </div>
         </div>
@@ -209,6 +295,71 @@ export default defineComponent({
 
           <div class="stat-card" v-else>
             <p class="no-data">Add ingredients to see nutrition info here.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick-add ingredient modal -->
+      <div class="modal-backdrop" v-if="showQuickAdd" @click.self="showQuickAdd = false">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>New Ingredient</h2>
+            <button class="modal-close" @click="showQuickAdd = false">✕</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="form-group" :class="{ 'has-error': quickErrors.name }">
+              <label>Name *</label>
+              <input v-model="quickAdd.name" type="text" placeholder="e.g. Chicken Breast" autocomplete="off" />
+              <span class="error-msg" v-if="quickErrors.name">{{ quickErrors.name }}</span>
+            </div>
+
+            <div class="form-row two-col">
+              <div class="form-group" :class="{ 'has-error': quickErrors.price }">
+                <label>Price ($) *</label>
+                <input v-model="quickAdd.price" type="number" step="0.01" min="0" placeholder="3.99" />
+                <span class="error-msg" v-if="quickErrors.price">{{ quickErrors.price }}</span>
+              </div>
+              <div class="form-group" :class="{ 'has-error': quickErrors.priceAmount }">
+                <label>Per *</label>
+                <div class="input-inline">
+                  <input v-model="quickAdd.priceAmount" type="number" step="0.01" min="0.01" placeholder="100" />
+                  <select v-model="quickAdd.priceUnit">
+                    <option v-for="u in MEASURABLE_UNITS" :key="u.key" :value="u.key">{{ u.label }}</option>
+                  </select>
+                </div>
+                <span class="error-msg" v-if="quickErrors.priceAmount">{{ quickErrors.priceAmount }}</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Calories (kcal) <span class="optional">— optional</span></label>
+              <input v-model="quickAdd.kCal" type="number" min="0" step="1" placeholder="0" />
+              <span class="field-hint">Calories per serving below (defaults to same as price unit if blank)</span>
+            </div>
+
+            <div class="form-row two-col" v-if="quickAdd.kCal !== ''">
+              <div class="form-group">
+                <label>Serving size <span class="optional">— optional</span></label>
+                <div class="input-inline">
+                  <input v-model="quickAdd.servingAmount" type="number" step="0.01" min="0.01" :placeholder="quickAdd.priceAmount || '100'" />
+                  <select v-model="quickAdd.servingUnit">
+                    <option v-for="u in MEASURABLE_UNITS" :key="u.key" :value="u.key">{{ u.label }}</option>
+                  </select>
+                </div>
+                <span class="field-hint">Leave blank to use the price unit amount</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <div class="modal-footer-left">
+              <button type="button" class="btn btn-ghost btn-sm" @click="openFullForm">Full form →</button>
+            </div>
+            <div class="modal-footer-right">
+              <button type="button" class="btn btn-secondary" @click="showQuickAdd = false">Cancel</button>
+              <button type="button" class="btn btn-primary" @click="submitQuickAdd">Add Ingredient</button>
+            </div>
           </div>
         </div>
       </div>
