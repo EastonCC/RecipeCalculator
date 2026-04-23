@@ -1,5 +1,7 @@
 import { defineComponent, ref, reactive, computed } from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.js'
 import { calcRecipeStats, UNITS, MEASURABLE_UNITS } from '../calculations.js'
+import NutritionLabel from '../components/NutritionLabel.js'
+import CostCard       from '../components/CostCard.js'
 
 const emptyQuickAdd = () => ({
   name: '', price: '', priceAmount: '100', priceUnit: 'GRAM',
@@ -8,6 +10,7 @@ const emptyQuickAdd = () => ({
 
 export default defineComponent({
   name: 'MealCalculator',
+  components: { NutritionLabel, CostCard },
   props: { store: Object },
   emits: ['navigate'],
   setup(props, { emit }) {
@@ -245,54 +248,13 @@ export default defineComponent({
         <!-- Live nutrition sidebar -->
         <div class="detail-sidebar">
           <template v-if="stats">
-            <div class="stat-card">
-              <div class="stat-header">Cost</div>
-              <div class="stat-row"><span>Total meal</span><strong>{{ '$' + stats.totalPrice.toFixed(2) }}</strong></div>
-              <template v-if="stats.costPerCalorie">
-                <div class="stat-divider"></div>
-                <div class="stat-row"><span>Per 100 cal</span><strong>{{ '$' + stats.costPerCalorie.toFixed(2) }}</strong></div>
-              </template>
-              <template v-if="stats.costPerProtein">
-                <div class="stat-row"><span>Per g protein</span><strong>{{ '$' + stats.costPerProtein.toFixed(4) }}</strong></div>
-              </template>
-              <p class="muted small" style="margin-top:.5rem" v-if="stats.missingIngredients.length">
-                ⚠ Missing: {{ stats.missingIngredients.join(', ') }}
-              </p>
-            </div>
-
-            <div class="nutrition-label" v-if="stats.nutrientsPerServing">
-              <div class="nl-title">Nutrition Facts</div>
-              <div class="nl-serving">Whole meal</div>
-              <div class="nl-divider thick"></div>
-              <div class="nl-calories">
-                <span>Calories</span>
-                <span>{{ stats.nutrientsPerServing.kCal }}</span>
-              </div>
-              <div class="nl-divider thick"></div>
-              <div class="nl-row"><span>Total Fat</span><span>{{ stats.nutrientsPerServing.fat?.total ?? '—' }}g</span></div>
-              <template v-if="stats.nutrientsPerServing.fat">
-                <div class="nl-row indent"><span>Saturated Fat</span><span>{{ stats.nutrientsPerServing.fat.saturated }}g</span></div>
-                <div class="nl-row indent"><span>Trans Fat</span><span>{{ stats.nutrientsPerServing.fat.trans }}g</span></div>
-              </template>
-              <div class="nl-row"><span>Cholesterol</span><span>{{ stats.nutrientsPerServing.cholesterol }}mg</span></div>
-              <div class="nl-row"><span>Sodium</span><span>{{ stats.nutrientsPerServing.sodium }}mg</span></div>
-              <div class="nl-row"><span>Total Carbohydrates</span><span>{{ stats.nutrientsPerServing.carbohydrates }}g</span></div>
-              <div class="nl-row indent"><span>Dietary Fiber</span><span>{{ stats.nutrientsPerServing.fiber }}g</span></div>
-              <template v-if="stats.nutrientsPerServing.sugar">
-                <div class="nl-row indent"><span>Total Sugars</span><span>{{ stats.nutrientsPerServing.sugar.total }}g</span></div>
-                <div class="nl-row indent2"><span>Incl. {{ stats.nutrientsPerServing.sugar.added }}g Added Sugars</span></div>
-              </template>
-              <div class="nl-row bold"><span>Protein</span><span>{{ stats.nutrientsPerServing.protein }}g</span></div>
-              <div class="nl-divider thick"></div>
-              <p class="nl-note" v-if="stats.nutrientsPerServing.incomplete">
-                ⚠ Some ingredients have no nutrient data — values may be understated.
-              </p>
-            </div>
-            <div class="stat-card" v-else>
-              <p class="no-data">No nutrient data available.<br>Add nutrient info to ingredients to see this.</p>
-            </div>
+            <CostCard :stats="stats" totalLabel="Total meal" />
+            <NutritionLabel
+              :nutrients="stats.nutrientsPerServing"
+              servingLabel="Whole meal"
+              :breakdown="stats.calorieBreakdown"
+            />
           </template>
-
           <div class="stat-card" v-else>
             <p class="no-data">Add ingredients to see nutrition info here.</p>
           </div>

@@ -56,6 +56,7 @@ export function calcRecipeStats(recipe, allIngredients) {
   let hasNutrients = false
   let incompleteNutrients = false
   let missingIngredients = []
+  const calorieBreakdown = []
 
   for (const ri of recipe.ingredients) {
     const ing = allIngredients.find(i => i.name === ri.ingredientName)
@@ -84,7 +85,8 @@ export function calcRecipeStats(recipe, allIngredients) {
           nf = converted / servingInPurchaseUnit
       }
 
-      n.kCal          += (ing.nutrients.kCal          || 0) * nf
+      const ingKCal = (ing.nutrients.kCal || 0) * nf
+      n.kCal          += ingKCal
       n.carbohydrates += (ing.nutrients.carbohydrates || 0) * nf
       n.protein       += (ing.nutrients.protein       || 0) * nf
       n.sodium        += (ing.nutrients.sodium        || 0) * nf
@@ -102,8 +104,11 @@ export function calcRecipeStats(recipe, allIngredients) {
         n.sugar.total += (ing.nutrients.sugar.total || 0) * nf
         n.sugar.added += (ing.nutrients.sugar.added || 0) * nf
       }
+
+      calorieBreakdown.push({ name: ri.ingredientName, kCal: ingKCal })
     } else {
       incompleteNutrients = true
+      calorieBreakdown.push({ name: ri.ingredientName, kCal: 0 })
     }
   }
 
@@ -131,6 +136,13 @@ export function calcRecipeStats(recipe, allIngredients) {
     incomplete: incompleteNutrients,
   } : null
 
+  const totalKCal = n.kCal
+  const breakdown = calorieBreakdown.map(item => ({
+    name: item.name,
+    kCal: Math.round(item.kCal / Math.max(1, Number(recipe.servings) || 1)),
+    pct:  totalKCal > 0 ? Math.round((item.kCal / totalKCal) * 100) : 0,
+  }))
+
   return {
     totalPrice,
     pricePerServing,
@@ -138,5 +150,6 @@ export function calcRecipeStats(recipe, allIngredients) {
     costPerCalorie: perServing?.kCal > 0 ? (pricePerServing / perServing.kCal) * 100 : null,
     costPerProtein: perServing?.protein > 0 ? pricePerServing / perServing.protein : null,
     missingIngredients,
+    calorieBreakdown: breakdown,
   }
 }
